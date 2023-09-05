@@ -2,7 +2,8 @@ name: Build Docker Images
 
 on:
   push:
-    # branches:
+    branches:
+      - debug-rpi-zero-2w
     #   - main
     #   - ci
     workflow_dispatch:
