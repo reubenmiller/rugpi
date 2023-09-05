@@ -60,32 +60,32 @@ pub fn run(task: &BakeTask) -> Anyhow<()> {
             "/usr/share/rugpi/rpi-eeprom/firmware/stable/pieeprom-2023-05-11.bin",
             temp_dir_path.join("pieeprom.upd")
         ])?;
-        run!([
-            "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
-            "-i",
-            temp_dir_path.join("pieeprom.upd"),
-            "-o",
-            temp_dir_path.join("pieeprom.sig")
-        ])?;
-        run!([
-            "cp",
-            "-f",
-            "/usr/share/rugpi/rpi-eeprom/firmware/stable/vl805-000138c0.bin",
-            temp_dir_path.join("vl805.bin")
-        ])?;
-        run!([
-            "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
-            "-i",
-            temp_dir_path.join("vl805.bin"),
-            "-o",
-            temp_dir_path.join("vl805.sig")
-        ])?;
-        run!([
-            "cp",
-            "-f",
-            "/usr/share/rugpi/rpi-eeprom/firmware/stable/recovery.bin",
-            temp_dir_path.join("recovery.bin")
-        ])?;
+        // run!([
+        //     "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
+        //     "-i",
+        //     temp_dir_path.join("pieeprom.upd"),
+        //     "-o",
+        //     temp_dir_path.join("pieeprom.sig")
+        // ])?;
+        // run!([
+        //     "cp",
+        //     "-f",
+        //     "/usr/share/rugpi/rpi-eeprom/firmware/stable/vl805-000138c0.bin",
+        //     temp_dir_path.join("vl805.bin")
+        // ])?;
+        // run!([
+        //     "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
+        //     "-i",
+        //     temp_dir_path.join("vl805.bin"),
+        //     "-o",
+        //     temp_dir_path.join("vl805.sig")
+        // ])?;
+        // run!([
+        //     "cp",
+        //     "-f",
+        //     "/usr/share/rugpi/rpi-eeprom/firmware/stable/recovery.bin",
+        //     temp_dir_path.join("recovery.bin")
+        // ])?;
     }
     Ok(())
 }
