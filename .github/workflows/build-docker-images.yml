@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "ghcr.io/silitics/rugpi-bakery:latest"
+  IMAGE_NAME: "ghcr.io/${{github.repository_owner}}/rugpi-bakery:latest"
   PI_BASE_IMAGE: "https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2023-05-03/2023-05-03-raspios-bullseye-arm64-lite.img.xz"
 
 jobs:
