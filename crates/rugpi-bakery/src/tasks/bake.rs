@@ -19,6 +19,9 @@ pub struct BakeTask {
     archive: String,
     /// The output image.
     image: String,
+    /// Device type, e.g. rpi4 or rpi5
+    #[clap(long, action)]
+    device_type: Option<String>,
 }
 
 pub fn run(task: &BakeTask) -> Anyhow<()> {
@@ -54,38 +57,74 @@ pub fn run(task: &BakeTask) -> Anyhow<()> {
     {
         let _mounted_config = Mounted::mount(loop_device.partition(1), temp_dir_path)?;
         run!(["cp", "-rTp", "/usr/share/rugpi/files/config", temp_dir_path])?;
-        run!([
-            "cp",
-            "-f",
-            "/usr/share/rugpi/rpi-eeprom/firmware/stable/pieeprom-2023-05-11.bin",
-            temp_dir_path.join("pieeprom.upd")
-        ])?;
-        run!([
-            "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
-            "-i",
-            temp_dir_path.join("pieeprom.upd"),
-            "-o",
-            temp_dir_path.join("pieeprom.sig")
-        ])?;
-        run!([
-            "cp",
-            "-f",
-            "/usr/share/rugpi/rpi-eeprom/firmware/stable/vl805-000138c0.bin",
-            temp_dir_path.join("vl805.bin")
-        ])?;
-        run!([
-            "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
-            "-i",
-            temp_dir_path.join("vl805.bin"),
-            "-o",
-            temp_dir_path.join("vl805.sig")
-        ])?;
-        run!([
-            "cp",
-            "-f",
-            "/usr/share/rugpi/rpi-eeprom/firmware/stable/recovery.bin",
-            temp_dir_path.join("recovery.bin")
-        ])?;
+
+        // Eeprom should not be included in image if users want to create a common image for
+        // both the Raspberry Pi 4 and 5, this also aligns with the official Raspberry Pi Image
+        match task.device_type {
+            None => {
+                println!("No eeprom images will be included in the image")
+            }
+            Some(ref device_type) => {
+                if device_type == "rpi4" {
+                    println!("Adding eeprom for {device_type}");
+                    run!([
+                        "cp",
+                        "-f",
+                        "/usr/share/rugpi/rpi-eeprom/firmware-2711/stable/pieeprom-2023-05-11.bin",
+                        temp_dir_path.join("pieeprom.upd")
+                    ])?;
+                    run!([
+                        "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
+                        "-i",
+                        temp_dir_path.join("pieeprom.upd"),
+                        "-o",
+                        temp_dir_path.join("pieeprom.sig")
+                    ])?;
+                    run!([
+                        "cp",
+                        "-f",
+                        "/usr/share/rugpi/rpi-eeprom/firmware-2711/stable/pieeprom-2023-05-11.bin",
+                        temp_dir_path.join("vl805.bin")
+                    ])?;
+                    run!([
+                        "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
+                        "-i",
+                        temp_dir_path.join("vl805.bin"),
+                        "-o",
+                        temp_dir_path.join("vl805.sig")
+                    ])?;
+                    run!([
+                        "cp",
+                        "-f",
+                        "/usr/share/rugpi/rpi-eeprom/firmware-2711/stable/recovery.bin",
+                        temp_dir_path.join("recovery.bin")
+                    ])?;
+                } else if device_type == "rpi5" {
+                    print!("Adding eeprom for {device_type}");
+                    run!([
+                        "cp",
+                        "-f",
+                        "/usr/share/rugpi/rpi-eeprom/firmware-2712/stable/pieeprom-2023-10-30.bin",
+                        temp_dir_path.join("pieeprom.upd")
+                    ])?;
+                    run!([
+                        "/usr/share/rugpi/rpi-eeprom/rpi-eeprom-digest",
+                        "-i",
+                        temp_dir_path.join("pieeprom.upd"),
+                        "-o",
+                        temp_dir_path.join("pieeprom.sig")
+                    ])?;
+                    run!([
+                        "cp",
+                        "-f",
+                        "/usr/share/rugpi/rpi-eeprom/firmware-2712/stable/recovery.bin",
+                        temp_dir_path.join("recovery.bin")
+                    ])?;
+                } else {
+                    println!("No eeprom available for {device_type}")
+                }
+            }
+        }
     }
     Ok(())
 }
