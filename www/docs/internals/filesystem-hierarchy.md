@@ -7,7 +7,7 @@ sidebar_position: 1
 Here is a quick reference for the filesystem hierarchy:
 
 - `/`: Root filesystem (read-write with an overlay).
-- `/boot`: Boot partition (read-only).
+- `/boot/firmware`: Boot partition (read-only).
 - `/run/rugpi/mounts/config`: Config boot partition (usually read-only).
 - `/run/rugpi/mounts/system`: System partition (read-only).
 - `/run/rugpi/mounts/data`: Data partition (read-write).

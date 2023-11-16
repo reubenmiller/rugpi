@@ -195,7 +195,7 @@ fn setup_root_overlay(state_profile: &Utf8Path) -> Anyhow<()> {
         "-o",
         "ro",
         hot_partitions.boot_dev(),
-        overlay_root_dir().join("boot")
+        overlay_root_dir().join("boot").join("firmware")
     ])?;
     Ok(())
 }

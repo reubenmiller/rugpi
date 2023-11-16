@@ -25,8 +25,8 @@ We call the currently booted set *hot set* and to the other *cold set*.
 The usual partition layout of a Rugpi installation comprises seven partitions:
 
 - Partition 1: Contains the [`autoboot.txt`](https://www.raspberrypi.com/documentation/computers/config_txt.html#autoboot-txt) for switching between the A and B set.
-- Partition 2: The `/boot` partition of the A set.
-- Partition 3: The `/boot` partition of the B set.
+- Partition 2: The `/boot/firmware` partition of the A set.
+- Partition 3: The `/boot/firmware` partition of the B set.
 - Partition 4: The extended MBR for the additional partitions.
 - Partition 5: The root partition of the A set.
 - Partition 6: The root partition of the B set.
