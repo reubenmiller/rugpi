@@ -7,6 +7,6 @@ rm "${root_dir}/etc/hostname"
 
 # Avoid deleting resolv.conf if it is symlink as this is an indication that another
 # service like systemd-resolved is managing it
-if [ ! -L "${root_dir}/etc/resolv.conf" ]; then
-    rm "${root_dir}/etc/resolv.conf"
-fi
+# if [ ! -L "${root_dir}/etc/resolv.conf" ]; then
+#     rm "${root_dir}/etc/resolv.conf"
+# fi
