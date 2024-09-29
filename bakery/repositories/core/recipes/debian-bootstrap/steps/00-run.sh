@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+if [ ! -f /etc/resolv.conf ]; then
+    # Create default resolv.conf on systems that don't have a file defined. This is the case when using the systemd-resolved stub DNS resolver
+    # Otherwise the build won't be able to resolve any addresses
+    echo "nameserver 1.1.1.1" > /etc/resolv.conf
+fi
+
 case "${RUGPI_ARCH}" in
     "amd64")
         DEBIAN_ARCH="amd64"
