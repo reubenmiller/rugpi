@@ -14,7 +14,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: "ghcr.io/silitics/rugpi-bakery"
+  IMAGE_NAME: ${{ vars.IMAGE_NAME || 'ghcr.io/silitics/rugpi-bakery' }}
 
 jobs:
   build_binaries:
